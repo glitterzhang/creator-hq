@@ -1,0 +1,47 @@
+name: Release desktop app
+
+# Builds the Tauri desktop app for macOS and Windows and publishes both installers
+# to a GitHub Release whenever a "v*" tag is pushed (e.g. v0.1.0).
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [macos-latest, windows-latest]
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install frontend dependencies
+        run: npm install
+        working-directory: desktop-app
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          projectPath: desktop-app
+          tagName: ${{ github.ref_name }}
+          releaseName: "Creator Command Center ${{ github.ref_name }}"
+          releaseBody: |
+            macOS and Windows installers below.
+
+            Not code-signed yet, so you'll see an "unidentified developer" warning on first
+            launch — this is expected. On macOS, right-click the app and choose **Open**; on
+            Windows, click **More info → Run anyway** in the SmartScreen prompt.
+          releaseDraft: false
+          prerelease: false
