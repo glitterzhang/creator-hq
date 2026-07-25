@@ -188,7 +188,7 @@
     <h1 class="serif">Know what's due, who owes you, and which clients are renewing.</h1>
     <p class="sub">The lightweight client and income tracker for freelance creators.</p>
     <div class="cta-row">
-      <a class="btn btn-primary btn-lg" href="app/">Try in Browser — free</a>
+      <a class="btn btn-primary btn-lg" href="app/" onclick="window.va && window.va('event', {name: 'try_in_browser_click_hero'})">Try in Browser — free</a>
       <a class="btn btn-ghost btn-lg" href="#download">Download for Desktop</a>
     </div>
 
@@ -270,8 +270,8 @@
         <h3>Desktop app <span class="tag">Early access</span></h3>
         <p>Native app for Mac and Windows. Adds offline use and folder sync (e.g. via iCloud Drive or Dropbox) across your own devices.</p>
         <div class="platforms">
-          <a class="btn btn-ghost" href="https://github.com/glitterzhang/creator-command-center/releases/download/v0.1.1/Creator.Command.Center_0.1.0_aarch64.dmg" id="downloadMacBtn">Download for macOS</a>
-          <a class="btn btn-ghost" href="https://github.com/glitterzhang/creator-command-center/releases/download/v0.1.1/Creator.Command.Center_0.1.0_x64-setup.exe" id="downloadWinBtn">Download for Windows</a>
+          <a class="btn btn-ghost" href="https://github.com/glitterzhang/creator-command-center/releases/download/v0.1.1/Creator.Command.Center_0.1.0_aarch64.dmg" id="downloadMacBtn" onclick="window.va && window.va('event', {name: 'download_click_mac'})">Download for macOS</a>
+          <a class="btn btn-ghost" href="https://github.com/glitterzhang/creator-command-center/releases/download/v0.1.1/Creator.Command.Center_0.1.0_x64-setup.exe" id="downloadWinBtn" onclick="window.va && window.va('event', {name: 'download_click_windows'})">Download for Windows</a>
         </div>
         <p style="font-size:12.5px; color:var(--ink-soft); margin:12px 0 0;">macOS build is for Apple Silicon (M1/M2/M3) only for now. Windows installer is 64-bit.</p>
       </div>
@@ -330,5 +330,6 @@
   </div>
 </footer>
 
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
