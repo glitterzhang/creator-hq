@@ -1,8 +1,8 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "productName": "Creator Command Center",
+  "productName": "CreatorHQ",
   "version": "0.1.0",
-  "identifier": "com.yangshao.creatorcommandcenter",
+  "identifier": "com.morrowai.creatorhq",
   "build": {
     "frontendDist": "../frontend",
     "beforeDevCommand": "npm run sync-frontend",
@@ -12,7 +12,7 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "Creator Command Center",
+        "title": "CreatorHQ",
         "width": 1280,
         "height": 860,
         "resizable": true,

@@ -38,7 +38,7 @@ jobs:
         with:
           projectPath: desktop-app
           tagName: ${{ github.ref_name }}
-          releaseName: "Creator Command Center ${{ github.ref_name }}"
+          releaseName: "CreatorHQ ${{ github.ref_name }}"
           releaseBody: |
             macOS and Windows installers below.
 

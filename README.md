@@ -1,12 +1,12 @@
-# Creator Command Center
+# CreatorHQ
 
-The lightweight client and income tracker for freelance creators. Ships as a free
-in-browser app and a native desktop app (Mac + Windows, via Tauri).
+The lightweight client and income tracker for freelance creators. A Morrow AI product.
+Ships as a free in-browser app and a native desktop app (Mac + Windows, via Tauri).
 
 ## Repo structure
 
 ```
-creator-command-center/
+creator-hq/
 ├── index.html            # marketing site (homepage)
 ├── privacy.html           # privacy policy
 ├── web/

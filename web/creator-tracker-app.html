@@ -1,4 +1,4 @@
-<title>Creator Command Center</title>
+<title>CreatorHQ</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <style>
   :root {
@@ -259,7 +259,7 @@
   <div class="brand">
     <svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="11" fill="none" style="stroke:var(--accent)" stroke-width="1.6" opacity="0.5"/><circle cx="8.5" cy="15.5" r="3" style="fill:var(--accent)"/><circle cx="17.5" cy="15.5" r="3" style="fill:var(--accent)" opacity="0.6"/><circle cx="13" cy="8" r="3" style="fill:var(--accent)" opacity="0.35"/><line x1="8.5" y1="15.5" x2="17.5" y2="15.5" style="stroke:var(--sidebar-ink)" stroke-width="1.2" opacity="0.4"/><line x1="8.5" y1="15.5" x2="13" y2="8" style="stroke:var(--sidebar-ink)" stroke-width="1.2" opacity="0.4"/><line x1="17.5" y1="15.5" x2="13" y2="8" style="stroke:var(--sidebar-ink)" stroke-width="1.2" opacity="0.4"/></svg>
     <div>
-      <div class="brand-name">Creator Command<br>Center<span id="brandWebTag" style="display:none; font-size:9.5px; font-weight:700; letter-spacing:0.04em; color:var(--sidebar-soft); margin-left:4px; vertical-align:1px;">WEB</span></div>
+      <div class="brand-name">CreatorHQ<span id="brandWebTag" style="display:none; font-size:9.5px; font-weight:700; letter-spacing:0.04em; color:var(--sidebar-soft); margin-left:4px; vertical-align:1px;">WEB</span></div>
       <div class="brand-tagline">The lightweight client and income tracker for freelance creators.</div>
     </div>
   </div>
@@ -776,7 +776,7 @@ async function pullFromCloud() {
 // In a plain browser (the web version), IS_DESKTOP is false and every function below is inert -
 // this file's web behavior is completely unchanged.
 const IS_DESKTOP = typeof window !== "undefined" && !!window.__TAURI__;
-const FOLDER_SYNC_FILENAME = "creator-command-center-data.json";
+const FOLDER_SYNC_FILENAME = "creatorhq-data.json";
 const FOLDER_PATH_KEY = "ccc_synced_folder_path";
 const FOLDER_LAST_SYNCED_KEY = "ccc_last_synced_at";
 let syncedFolderPath = null;
@@ -874,7 +874,7 @@ async function linkSyncFolder() {
     const when = existing.updatedAt ? new Date(existing.updatedAt).toLocaleString() : "an earlier session";
     const ok = await showConfirmModal(
       "Existing sync file found",
-      `This folder already has Creator Command Center data (last saved ${when}). Load it and replace what's currently open here? Choose Cancel to keep what's open here and overwrite the folder's file with it instead.`
+      `This folder already has CreatorHQ data (last saved ${when}). Load it and replace what's currently open here? Choose Cancel to keep what's open here and overwrite the folder's file with it instead.`
     );
     if (ok) {
       DATA = existing;
@@ -1925,7 +1925,7 @@ async function submitFeedback() {
         method: "POST",
         headers: { "Content-Type": "application/json", "Accept": "application/json" },
         body: JSON.stringify({
-          _subject: "Creator Command Center feedback",
+          _subject: "CreatorHQ feedback",
           message: message,
           email: replyEmail || "(not provided)",
         }),
@@ -1943,7 +1943,7 @@ async function submitFeedback() {
     // like this within an active user-gesture window) - anything awaited first, even a fast
     // clipboard write, breaks that and silently blocks the mailto. So: trigger mailto FIRST, then
     // copy to clipboard after as a backup in case the visitor has no default mail app configured.
-    const subject = "Creator Command Center feedback";
+    const subject = "CreatorHQ feedback";
     const body = message + (replyEmail ? "\n\nReply to: " + replyEmail : "");
     const mailto = "mailto:glitterosu@gmail.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
     const a = document.createElement("a");
@@ -2048,7 +2048,7 @@ if (IS_DESKTOP) {
   restoreFolderLink();
 } else {
   document.getElementById("feedbackModalIntro").textContent = "Spotted a bug, or wish this did something differently? This tries to open your email app with the message pre-filled, and copies it to your clipboard as a backup - paste it into an email to glitterosu@gmail.com if nothing opens.";
-  document.title = "Creator Command Center Web";
+  document.title = "CreatorHQ Web";
   document.getElementById("brandWebTag").style.display = "inline";
 }
 
