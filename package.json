@@ -1,0 +1,8 @@
+{
+  "name": "creator-command-center-site",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "node scripts/sync-app.mjs"
+  }
+}

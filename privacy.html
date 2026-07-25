@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy — Creator Command Center</title>
+<meta name="description" content="How Creator Command Center handles your data, in both the browser and desktop versions.">
+<style>
+  :root {
+    --paper: #F4F7FB; --card: #FFFFFF; --ink: #1E293B; --ink-soft: #64748B;
+    --rule: #DCE4EE; --accent: #7C3AED; --accent-ink: #5B21B6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #0F1720; --card: #16202C; --ink: #E7EEF7; --ink-soft: #93A3B8;
+      --rule: #24303E; --accent: #A78BFA; --accent-ink: #C4B5FD;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--paper); color: var(--ink);
+    font-family: ui-sans-serif, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  .serif { font-family: "Iowan Old Style", Charter, Georgia, serif; }
+  a { color: var(--accent-ink); }
+  .wrap { max-width: 680px; margin: 0 auto; padding: 56px 24px 80px; }
+  .back { display: inline-block; margin-bottom: 24px; color: var(--ink-soft); text-decoration: none; font-size: 14px; }
+  .back:hover { color: var(--ink); }
+  h1 { font-size: 32px; margin: 0 0 6px; }
+  .updated { color: var(--ink-soft); font-size: 13.5px; margin: 0 0 40px; }
+  h2 { font-size: 19px; margin: 36px 0 10px; }
+  p { color: var(--ink); font-size: 15.5px; margin: 0 0 14px; }
+  ul { margin: 0 0 14px; padding-left: 20px; }
+  li { margin-bottom: 6px; font-size: 15.5px; }
+  .card { background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 18px 20px; margin: 20px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">&larr; Back to Creator Command Center</a>
+  <h1 class="serif">Privacy</h1>
+  <p class="updated">Last updated July 2026</p>
+
+  <p>Creator Command Center is built to work without collecting your business data. Here's exactly what happens to your information in each version of the app.</p>
+
+  <h2>Browser version</h2>
+  <p>Your clients, content, and invoice data is stored only in your browser's local storage, on your own device. It is never sent to a server — there's no account, no sign-up, and no backend for the app to talk to by default.</p>
+  <div class="card">
+    <p style="margin:0;">Clearing your browser's site data, switching browsers, or switching computers will remove this data. Use <strong>Export all (CSV)</strong> in the app to back it up first.</p>
+  </div>
+
+  <h2>Desktop version</h2>
+  <p>The desktop app stores your data in a local file on your device — again, nothing is sent to a server by default. If you choose to link a sync folder (for example, one inside iCloud Drive or Dropbox), the app writes its data file into that folder so your existing cloud-storage service can keep it up to date across your own devices. That sync is handled entirely by your existing cloud provider, not by us.</p>
+
+  <h2>Optional account sign-in</h2>
+  <p>Some copies of the app may offer an optional "sign in to sync" feature for keeping data in step across devices without a shared folder. This is opt-in — if you don't use it, no account or email is ever created or contacted, aside from anything you choose to send us directly (like feedback).</p>
+
+  <h2>Feedback</h2>
+  <p>If you use the in-app "Send feedback" feature, the message you write (and your email, if you choose to include one) is sent to us so we can read and respond to it. We don't use it for anything else.</p>
+
+  <h2>What we don't do</h2>
+  <ul>
+    <li>We don't run analytics or trackers inside the app.</li>
+    <li>We don't sell or share your data — we don't have it to begin with.</li>
+    <li>We don't require an account to use any core feature.</li>
+  </ul>
+
+  <h2>Questions</h2>
+  <p>If anything here is unclear, or you want to ask about a specific case, email <a href="mailto:glitterosu@gmail.com">glitterosu@gmail.com</a>.</p>
+</div>
+</body>
+</html>
