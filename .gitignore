@@ -1,5 +1,6 @@
 .DS_Store
 node_modules/
+dist/
 desktop-app/frontend/
 desktop-app/src-tauri/target/
 desktop-app/src-tauri/gen/schemas/

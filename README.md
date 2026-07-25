@@ -17,8 +17,8 @@ creator-command-center/
 │   ├── package.json
 │   ├── scripts/sync-frontend.mjs   # copies web/creator-tracker-app.html into frontend/ before dev/build
 │   └── src-tauri/          # Rust backend
-├── scripts/sync-app.mjs    # copies web/creator-tracker-app.html into app/index.html
-└── package.json            # site build: npm run build → runs scripts/sync-app.mjs
+├── scripts/build-site.mjs  # builds dist/ (index.html, privacy.html, app/index.html) for deployment
+└── package.json            # site build: npm run build → runs scripts/build-site.mjs
 ```
 
 **Never hand-edit `app/index.html` or `desktop-app/frontend/index.html`** — both are generated
@@ -40,11 +40,10 @@ plain web page and inside the Tauri shell.
 
 ```bash
 npm install
-npm run build   # syncs web/creator-tracker-app.html -> app/index.html
+npm run build   # builds dist/ from index.html, privacy.html, and web/creator-tracker-app.html
 ```
 
-Then open `index.html` or `app/index.html` directly, or serve the repo root with any static
-file server.
+Then open the files in `dist/` directly, or serve that directory with any static file server.
 
 **Desktop app:**
 
@@ -60,8 +59,9 @@ Requires the Rust toolchain (`rustup`) installed locally.
 ## Deployment
 
 - **Site**: deployed to Vercel from this repo. Framework preset "Other", build command
-  `npm run build`, output directory `.` (repo root) — Vercel serves `index.html`, `privacy.html`,
-  and `app/index.html` as static files after the sync step runs.
+  `npm run build`, output directory `dist` — only the files meant to be public (the marketing
+  homepage, privacy page, and the app) get deployed; source files like `desktop-app/` and
+  `scripts/` never reach the live site.
 - **Desktop installers**: built locally (or via CI) with `tauri build` and attached to GitHub
   Releases. The desktop app is not yet code-signed/notarized — first launch shows an
   "unidentified developer" warning on both macOS and Windows; this is expected until signing is
