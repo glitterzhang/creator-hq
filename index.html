@@ -23,11 +23,12 @@
 <meta name="twitter:image" content="https://creator.morrowai.app/assets/og-image.jpg">
 <style>
   :root {
-    --paper: #050608; --card: #0D0B14; --ink: #F1F0F7; --ink-soft: #8B849C;
-    --rule: rgba(167,139,250,0.16); --accent: #A78BFA; --accent-ink: #A78BFA; --accent-text: #1B1530;
-    --accent-gradient: linear-gradient(135deg, #A78BFA 0%, #C4B5FD 100%);
-    --gold: #E0AC58; --green: #6FBF95; --red: #E2836E;
-    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 12px 30px rgba(0,0,0,0.4), 0 0 24px rgba(167,139,250,0.06);
+    --paper: #F5F2FC; --card: #FFFFFF; --ink: #241B33; --ink-soft: #6B6478;
+    --rule: #E4DCF5; --accent: #7C3AED; --accent-ink: #5B21B6; --accent-text: #FFFFFF;
+    --accent-gradient: linear-gradient(135deg, #7C3AED 0%, #5B21B6 100%);
+    --gold: #B9832E; --green: #3C8F63; --red: #B3432F;
+    --shadow: 0 1px 2px rgba(36,27,51,0.06), 0 10px 28px rgba(124,58,237,0.10);
+    --nav-bg: #08060D; --nav-ink: #F1EEF9; --nav-ink-soft: #9089A3; --nav-rule: rgba(167,139,250,0.16);
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
@@ -42,19 +43,19 @@
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
   .narrow { max-width: 700px; }
 
-  /* Nav */
+  /* Nav - dark, matches the app's sidebar */
   header.site-nav {
-    position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--paper) 88%, transparent);
-    backdrop-filter: blur(10px); border-bottom: 1px solid var(--rule);
+    position: sticky; top: 0; z-index: 30; background: color-mix(in srgb, var(--nav-bg) 92%, transparent);
+    backdrop-filter: blur(10px); border-bottom: 1px solid var(--nav-rule);
   }
   .site-nav .wrap { display: flex; align-items: center; justify-content: space-between; padding-top: 14px; padding-bottom: 14px; }
-  .brand-mark { display: flex; align-items: center; gap: 9px; text-decoration: none; color: var(--ink); font-weight: 700; font-size: 15px; letter-spacing: -0.01em; }
+  .brand-mark { display: flex; align-items: center; gap: 9px; text-decoration: none; color: var(--nav-ink); font-weight: 700; font-size: 15px; letter-spacing: -0.01em; }
   .brand-mark img { width: 36px; height: 36px; display: block; }
   .morrow-link { font-size: 13px; }
-  .hero .logo-hero { width: 168px; height: 168px; margin: 0 auto 22px; display: block; border-radius: 32px; filter: drop-shadow(0 0 44px rgba(167,139,250,0.35)); }
+  .hero .logo-hero { width: 168px; height: 168px; margin: 0 auto 22px; display: block; border-radius: 32px; filter: drop-shadow(0 0 44px rgba(124,58,237,0.3)); }
   .site-nav nav { display: flex; align-items: center; gap: 22px; }
-  .site-nav nav a:not(.btn) { color: var(--ink-soft); text-decoration: none; font-size: 14px; font-weight: 500; }
-  .site-nav nav a:not(.btn):hover { color: var(--ink); }
+  .site-nav nav a:not(.btn) { color: var(--nav-ink-soft); text-decoration: none; font-size: 14px; font-weight: 500; }
+  .site-nav nav a:not(.btn):hover { color: var(--nav-ink); }
 
   .btn {
     display: inline-flex; align-items: center; justify-content: center; gap: 6px;
