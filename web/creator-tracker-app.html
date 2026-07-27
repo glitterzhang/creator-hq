@@ -262,6 +262,10 @@
     Invoices &amp; Income
   </button>
   <div class="sidebar-foot">
+    <a id="updateBanner" href="https://github.com/glitterzhang/creator-hq/releases/latest" target="_blank" rel="noopener" style="display:none; align-items:center; gap:8px; text-decoration:none; background:color-mix(in srgb, var(--gold) 16%, transparent); color:var(--gold); border:1px solid color-mix(in srgb, var(--gold) 40%, transparent); border-radius:7px; padding:8px 10px; font-size:12.5px; font-weight:600; margin-bottom:10px;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M12 15V3"/><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/></svg>
+      <span id="updateBannerText">New version available</span>
+    </a>
     <div id="accountStatusRow" style="display:none;"></div>
     <button class="data-btn" id="accountBtn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;flex-shrink:0;"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/></svg> Sign in to sync</button>
     <div id="folderSyncStatusRow" style="display:none;"></div>
@@ -758,11 +762,42 @@ async function pullFromCloud() {
 // In a plain browser (the web version), IS_DESKTOP is false and every function below is inert -
 // this file's web behavior is completely unchanged.
 const IS_DESKTOP = typeof window !== "undefined" && !!window.__TAURI__;
+// Bump this with every tagged release (must match the git tag, without the "v") - it's the only
+// way the update-check banner below knows what "current" means, since there's no build-time
+// injection step for this single-file app.
+const APP_VERSION = "0.5.0";
 const FOLDER_SYNC_FILENAME = "creatorhq-data.json";
 const FOLDER_PATH_KEY = "ccc_synced_folder_path";
 const FOLDER_LAST_SYNCED_KEY = "ccc_last_synced_at";
 let syncedFolderPath = null;
 let folderSyncTimer = null;
+
+// ---------- Update check (desktop only) ----------
+// Lightweight "is a newer release out" check against the public GitHub Releases API - no
+// signing/auto-install infrastructure needed. Just points people at the releases page; see the
+// creatorhq-autoupdate-plan-b memory for the real one-click auto-updater this could grow into.
+function compareVersions(a, b) {
+  const pa = a.split(".").map(Number), pb = b.split(".").map(Number);
+  for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+    const na = pa[i] || 0, nb = pb[i] || 0;
+    if (na !== nb) return na - nb;
+  }
+  return 0;
+}
+async function checkForUpdates() {
+  try {
+    const res = await fetch("https://api.github.com/repos/glitterzhang/creator-hq/releases/latest");
+    if (!res.ok) return;
+    const data = await res.json();
+    const latest = String(data.tag_name || "").replace(/^v/, "");
+    if (!latest || compareVersions(latest, APP_VERSION) <= 0) return;
+    if (localStorage.getItem("ccc_update_dismissed") === latest) return;
+    document.getElementById("updateBannerText").textContent = `New version available (v${latest})`;
+    const banner = document.getElementById("updateBanner");
+    banner.style.display = "flex";
+    banner.addEventListener("click", () => localStorage.setItem("ccc_update_dismissed", latest));
+  } catch (err) { /* offline or rate-limited - fail silently, this is a non-essential nicety */ }
+}
 
 function queueFolderSync() {
   if (!IS_DESKTOP || !syncedFolderPath) return;
@@ -2028,6 +2063,7 @@ if (IS_DESKTOP) {
   document.querySelector("#view-dashboard .view-sub").textContent += " On desktop, you can also link a folder (e.g. in iCloud Drive) to sync across devices.";
   document.getElementById("helpDataStorageP").innerHTML += ' On desktop, <strong>' + icon("folder", 12) + ' Link a sync folder</strong> is another option - pick a folder (e.g. inside iCloud Drive or Dropbox) and this app writes its data there, so that service\'s own sync keeps it up to date on your other devices. No account needed for this either.';
   restoreFolderLink();
+  checkForUpdates();
 } else {
   document.getElementById("feedbackModalIntro").textContent = "Spotted a bug, or wish this did something differently? This tries to open your email app with the message pre-filled, and copies it to your clipboard as a backup - paste it into an email to glitterosu@gmail.com if nothing opens.";
   document.title = "CreatorHQ Web";
