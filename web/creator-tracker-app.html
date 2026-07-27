@@ -488,6 +488,7 @@
   <div class="modal">
     <h3 id="invoiceModalTitle">New invoice</h3>
     <input type="hidden" id="invoiceId">
+    <div class="field"><label>Related content (optional)</label><select id="invoiceContent"></select></div>
     <div class="field"><label>Label</label><input id="invoiceLabel" placeholder="INV-1042 - July retainer"></div>
     <div class="field"><label>Client / project</label><select id="invoiceClient"></select></div>
     <div class="field-row">
@@ -765,7 +766,7 @@ const IS_DESKTOP = typeof window !== "undefined" && !!window.__TAURI__;
 // Bump this with every tagged release (must match the git tag, without the "v") - it's the only
 // way the update-check banner below knows what "current" means, since there's no build-time
 // injection step for this single-file app.
-const APP_VERSION = "0.6.0";
+const APP_VERSION = "0.7.0";
 const FOLDER_SYNC_FILENAME = "creatorhq-data.json";
 const FOLDER_PATH_KEY = "ccc_synced_folder_path";
 const FOLDER_LAST_SYNCED_KEY = "ccc_last_synced_at";
@@ -1754,6 +1755,35 @@ function populateClientSelects() {
   document.getElementById("contentClient").innerHTML = opts;
   document.getElementById("invoiceClient").innerHTML = opts;
 }
+function populateInvoiceContentSelect() {
+  const opts = `<option value="">- none -</option>` + DATA.content.map(c =>
+    `<option value="${c.id}">${c.title.replace("[SAMPLE] ","")} (${clientName(c.clientId)})</option>`
+  ).join("");
+  document.getElementById("invoiceContent").innerHTML = opts;
+}
+// Selecting a content item pulls in its client and title so the invoice doesn't need retyping
+// what's already known; selecting a client (directly, or via the content link above) suggests
+// that client's rate as the amount - both only fill fields that are still empty, so editing an
+// existing invoice never clobbers values someone already typed.
+function applyInvoiceContentLink() {
+  const contentId = document.getElementById("invoiceContent").value;
+  if (!contentId) return;
+  const content = DATA.content.find(c => c.id === contentId);
+  if (!content) return;
+  const clientSel = document.getElementById("invoiceClient");
+  const labelInput = document.getElementById("invoiceLabel");
+  if (!clientSel.value) clientSel.value = content.clientId || "";
+  if (!labelInput.value) labelInput.value = content.title.replace("[SAMPLE] ", "");
+  suggestInvoiceAmountFromClient();
+}
+function suggestInvoiceAmountFromClient() {
+  const amountInput = document.getElementById("invoiceAmount");
+  if (amountInput.value) return;
+  const client = DATA.clients.find(c => c.id === document.getElementById("invoiceClient").value);
+  if (client && client.rate) amountInput.value = client.rate;
+}
+document.getElementById("invoiceContent").addEventListener("change", applyInvoiceContentLink);
+document.getElementById("invoiceClient").addEventListener("change", suggestInvoiceAmountFromClient);
 
 async function deleteRow(table, id) {
   const ok = await showConfirmModal("Delete this row?", "This can't be undone.");
@@ -1880,9 +1910,11 @@ function saveContent() {
 // ---------- Invoice modal ----------
 function openInvoiceModal(id) {
   populateClientSelects();
+  populateInvoiceContentSelect();
   document.getElementById("invoiceModalTitle").textContent = id ? "Edit invoice" : "New invoice";
   document.getElementById("invoiceId").value = id || "";
   const i = id ? DATA.invoices.find(x=>x.id===id) : {};
+  document.getElementById("invoiceContent").value = i.contentId || "";
   document.getElementById("invoiceLabel").value = i.label || "";
   document.getElementById("invoiceClient").value = i.clientId || "";
   document.getElementById("invoiceAmount").value = i.amount || "";
@@ -1899,6 +1931,7 @@ function saveInvoice() {
   const row = {
     id, label: document.getElementById("invoiceLabel").value || "Untitled",
     clientId: document.getElementById("invoiceClient").value,
+    contentId: document.getElementById("invoiceContent").value,
     amount: Number(document.getElementById("invoiceAmount").value || 0),
     status: document.getElementById("invoiceStatus").value,
     issue: document.getElementById("invoiceIssue").value,
@@ -2000,7 +2033,7 @@ document.getElementById("accountSignUpBtn").addEventListener("click", async () =
 document.getElementById("exportAllBtn").addEventListener("click", () => {
   download("clients.csv", toCSV(DATA.clients, ["id","name","status","type","rate","renewal","contact","email","notes"]));
   setTimeout(()=>download("content_pipeline.csv", toCSV(DATA.content, ["id","title","clientId","stage","format","due","revisions"])), 300);
-  setTimeout(()=>download("invoices.csv", toCSV(DATA.invoices, ["id","label","clientId","amount","status","issue","due"])), 600);
+  setTimeout(()=>download("invoices.csv", toCSV(DATA.invoices, ["id","label","clientId","contentId","amount","status","issue","due"])), 600);
 });
 
 function parseCSV(text) {
